@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:simple_video_player/widget/app_name.dart';
-import 'package:simple_video_player/widget/logo.dart';
+import 'package:simple_video_player/components/app_name.dart';
+import 'package:simple_video_player/components/custom_video_player.dart';
+import 'package:simple_video_player/components/logo.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -35,9 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,   // 위젯들 가운데 정렬
         children: [
+          // 로고 이미지
           Logo(
             onTap: _onNewVideoPressed,
-          ),   // 로고 이미지
+          ),
           SizedBox(height: 30.0),
           AppName(),   // 앱 이름
         ],
@@ -74,6 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 동영상 선택 후에 보여줄 위젯
   Widget renderVideo() {
-    return Container();
+    return Center(
+      child: CustomVideoPlayer(
+        video: video!,   // 선택된 동영상 입력
+      ),   // 동영상 재생기 위젯
+    );
   }
 }

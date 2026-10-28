@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--Add device gallery access permissions-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:label="simple_video_player"
         android:name="${applicationName}"

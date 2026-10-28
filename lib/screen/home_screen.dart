@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,   // 위젯들 가운데 정렬
         children: [
-          Logo(),   // 로고 이미지
+          Logo(
+            onTap: _onNewVideoPressed,
+          ),   // 로고 이미지
           SizedBox(height: 30.0),
           AppName(),   // 앱 이름
         ],
@@ -55,6 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  // 이미지 등을 선택하는 함수
+  Future<void> _onNewVideoPressed() async {
+    final video = await ImagePicker().pickVideo(
+      source: ImageSource.gallery,
+    );
+
+    if (video != null) {
+      setState(() {
+        this.video = video;
+      });
+    }
   }
 
   // 동영상 선택 후에 보여줄 위젯

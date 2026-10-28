@@ -31,12 +31,27 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget renderEmpty() {
     return Container(
       width: MediaQuery.of(context).size.width,   // 최대 넓이로 설정
+      decoration: getBoxDecoration(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,   // 위젯들 가운데 정렬
         children: [
           Logo(),   // 로고 이미지
           SizedBox(height: 30.0),
           AppName(),   // 앱 이름
+        ],
+      ),
+    );
+  }
+
+  BoxDecoration getBoxDecoration() {
+    return BoxDecoration(
+      // 그라데이션 색상 적용
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFF2A3A7C),
+          Color(0xFF000118),
         ],
       ),
     );

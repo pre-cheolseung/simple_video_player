@@ -108,17 +108,17 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               children: [
                 // 되감기 버튼
                 CustomIconButton(
-                  onPressed: () {},
+                  onPressed: onReversePressed,
                   iconData: Icons.rotate_left,
                 ),
                 // 재생 중 여부에 따라 재생 또는 일시정지 버튼
                 CustomIconButton(
-                  onPressed: () {},
+                  onPressed: onPlayPressed,
                   iconData: videoPlayerController!.value.isPlaying ? Icons.pause : Icons.play_arrow,
                 ),
                 // 앞으로 감기 버튼
                 CustomIconButton(
-                  onPressed: () {},
+                  onPressed: onForwardPressed,
                   iconData: Icons.rotate_right,
                 ),
               ],
@@ -127,5 +127,43 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
         ],
       ),
     );
+  }
+
+  // 되감기 버튼을 눌렀을 때 실행할 함수
+  void onReversePressed() {
+    final currentPosition = videoPlayerController!.value.position;   // 현재 동영상 재생 위치
+
+    Duration position = Duration();   // 0초로 재생 위치 초기화
+
+    // 현재 동영상 재생 위치가 3초보다 길 때만 3초 감소
+    if (currentPosition.inSeconds > 3) {
+      position = currentPosition - Duration(seconds: 3);
+    }
+
+    videoPlayerController!.seekTo(position);   // 동영상의 재생 위치를 특정 위치로 이동
+  }
+
+  // 재생 또는 일시정지 버튼을 눌렀을 때 실행할 함수
+  void onPlayPressed() {
+    if (videoPlayerController!.value.isPlaying) {
+      videoPlayerController!.pause();
+    } else {
+      videoPlayerController!.play();
+    }
+  }
+
+  // 앞으로 감기 버튼을 눌렀을 때 실행할 함수
+  void onForwardPressed() {
+    final maxPosition = videoPlayerController!.value.duration;   // 동영상 길이
+    final currentPosition = videoPlayerController!.value.position;   // 현재 동영상 재생 위치
+
+    Duration position = maxPosition;   // 동영상 길이로 재생 위치 초기화 (동영상 재생 종료 위치)
+
+    // 동영상 길이에서 3초를 감소한 값보다 현재 재생 위치가 짧을 때만 3초 가산
+    if ((maxPosition - Duration(seconds: 3)).inSeconds > currentPosition.inSeconds) {
+      position = currentPosition + Duration(seconds: 3);
+    }
+
+    videoPlayerController!.seekTo(position);   // 동영상의 재생 위치를 특정 위치로 이동
   }
 }

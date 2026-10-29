@@ -129,19 +129,35 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               left: 0,
               right: 0,
               // 동영상 재생 상태를 보여주는 슬라이더
-              child: Slider(
-                // value 매개변수는 현재 값을 의미
-                value: videoPlayerController!.value.position.inSeconds.toDouble(),   // 현재 동영상 재생 위치를 초 단위로 표현
-                // 슬라이더가 이동할 때마다 실행할 함수
-                onChanged: (double val) {
-                  // 동영상의 재생 위치를 특정 위치로 이동
-                  videoPlayerController!.seekTo(
-                    Duration(seconds: val.toInt()),   // val값을 int로 변경해서 Slider 위젯에서 입력된 재생 위치를 수신
-                  );
-                },
-                min: 0,
-                // max 매개변수는 double 값을 입력
-                max: videoPlayerController!.value.duration.inSeconds.toDouble(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    renderTimeTextFromDuration(
+                      videoPlayerController!.value.position,   // 현재 동영상 재생 위치
+                    ),
+                    Expanded(
+                      // Slider가 남는 공간을 모두 차지하도록 구현
+                      child: Slider(
+                        // value 매개변수는 현재 값을 의미
+                        value: videoPlayerController!.value.position.inSeconds.toDouble(),   // 현재 동영상 재생 위치를 초 단위로 표현
+                        // 슬라이더가 이동할 때마다 실행할 함수
+                        onChanged: (double val) {
+                          // 동영상의 재생 위치를 특정 위치로 이동
+                          videoPlayerController!.seekTo(
+                            Duration(seconds: val.toInt()),   // val값을 int로 변경해서 Slider 위젯에서 입력된 재생 위치를 수신
+                          );
+                        },
+                        min: 0,
+                        // max 매개변수는 double 값을 입력
+                        max: videoPlayerController!.value.duration.inSeconds.toDouble(),
+                      ),
+                    ),
+                    renderTimeTextFromDuration(
+                      videoPlayerController!.value.duration,   // 동영상 총 길이
+                    ),
+                  ],
+                ),
               ),
             ),
             // showControls가 true일 때만 아이콘 보임
@@ -186,6 +202,16 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     );
   }
 
+  Widget renderTimeTextFromDuration(Duration duration) {
+    // Duration 값을 보기 편한 형태로 변환
+    return Text(
+      '${duration.inMinutes.toString().padLeft(2, '0')} : ${(duration.inSeconds % 60).toString().padLeft(2, '0')}',
+      style: TextStyle(
+        color: Colors.white,
+      ),
+    );
+  }
+
   // 되감기 버튼을 눌렀을 때 실행할 함수
   void onReversePressed() {
     final currentPosition = videoPlayerController!.value.position;   // 현재 동영상 재생 위치
@@ -211,10 +237,10 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
   // 앞으로 감기 버튼을 눌렀을 때 실행할 함수
   void onForwardPressed() {
-    final maxPosition = videoPlayerController!.value.duration;   // 동영상 길이
+    final maxPosition = videoPlayerController!.value.duration;   // 동영상 총 길이
     final currentPosition = videoPlayerController!.value.position;   // 현재 동영상 재생 위치
 
-    Duration position = maxPosition;   // 동영상 길이로 재생 위치 초기화 (동영상 재생 종료 위치)
+    Duration position = maxPosition;   // 동영상 총 길이로 재생 위치 초기화 (동영상 재생 종료 위치)
 
     // 동영상 길이에서 3초를 감소한 값보다 현재 재생 위치가 짧을 때만 3초 가산
     if ((maxPosition - Duration(seconds: 3)).inSeconds > currentPosition.inSeconds) {

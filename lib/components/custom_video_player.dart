@@ -42,11 +42,32 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       File(widget.video.path),
     );
 
-    await videoPlayerController.initialize();
+    await videoPlayerController.initialize();   // 동영상을 재생할 수 있는 상태로 준비
 
+    videoPlayerController.addListener(videoPlayerControllerListener);   // 컨트롤러의 속성이 변경될 때마다 실행할 함수 등록
+
+    // 상태 변경 시 setState() 함수 실행
+    // 값 변경 시 build() 함수 재실행
+    // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {
       this.videoPlayerController = videoPlayerController;
     });
+  }
+
+  // 동영상의 재생 상태가 변경될 때마다 setState()를 실행해서 build()를 재실행
+  void videoPlayerControllerListener() {
+    // 상태 변경 시 setState() 함수 실행
+    // 값 변경 시 build() 함수 재실행
+    // Clean -> setState() -> Dirty -> build() -> Clean
+    setState(() {});
+  }
+
+  // State가 폐기될 때 같이 폐기할 함수들을 실행
+  @override
+  void dispose() {
+    videoPlayerController?.removeListener(videoPlayerControllerListener);   // Listener를 삭제하여 리소스 사용을 최적화
+
+    super.dispose();
   }
 
   @override

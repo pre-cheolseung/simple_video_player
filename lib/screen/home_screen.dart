@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // 로고 이미지
           Logo(
-            onTap: _onNewVideoPressed,
+            onTap: onNewVideoPressed,
           ),
           SizedBox(height: 30.0),
           AppName(),   // 앱 이름
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // 이미지 등을 선택하는 함수
-  Future<void> _onNewVideoPressed() async {
+  Future<void> onNewVideoPressed() async {
     final video = await ImagePicker().pickVideo(
       source: ImageSource.gallery,
     );
@@ -82,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: CustomVideoPlayer(
         video: video!,   // 선택된 동영상 입력
+        onNewVideoPressed: onNewVideoPressed,
       ),   // 동영상 재생기 위젯
     );
   }

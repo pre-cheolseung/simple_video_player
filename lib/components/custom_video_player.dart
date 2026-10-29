@@ -12,9 +12,11 @@ class CustomVideoPlayer extends StatefulWidget {
   // 선택한 동영상을 저장할 변수
   // XFile은 ImagePicker로 이미지 또는 영상을 선택했을 때 반환하는 타입
   final XFile video;
+  final GestureTapCallback onNewVideoPressed;   // 새로운 동영상을 선택하면 실행되는 함수
 
   const CustomVideoPlayer({
     required this.video,   // 상위에서 선택한 동영상 주입
+    required this.onNewVideoPressed,
 
     Key? key,
   }) : super(key: key);
@@ -37,7 +39,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   }
 
   // 선택한 동영상으로 컨트롤러 초기화
-  initializeController() async {
+  void initializeController() async {
     final videoPlayerController = VideoPlayerController.file(
       File(widget.video.path),
     );
@@ -60,6 +62,18 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     // 값 변경 시 build() 함수 재실행
     // Clean -> setState() -> Dirty -> build() -> Clean
     setState(() {});
+  }
+
+  @override
+  // didUpdateWidget() 함수를 사용해서 새로운 동영상이 선택되었을 때 videoPlayerController를 새로 생성
+  // covariant 키워드는 CustomVideoPlayer 클래스에 상속된 값도 허가
+  void didUpdateWidget(covariant CustomVideoPlayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // 새로 선택한 동영상이 같은 동영상인지 확인
+    if (oldWidget.video.path != widget.video.path) {
+      initializeController();
+    }
   }
 
   // State가 폐기될 때 같이 폐기할 함수들을 실행
@@ -117,7 +131,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
           Align(
             alignment: Alignment.topRight,
             child: CustomIconButton(
-              onPressed: () {},
+              onPressed: widget.onNewVideoPressed,   // 사진 및 카메라 아이콘을 선택하면 새로운 동영상 선택 함수 실행
               iconData: Icons.photo_camera_back,
             ),
           ),

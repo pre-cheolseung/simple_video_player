@@ -2,6 +2,8 @@ import 'dart:io';   // 파일 관련 작업 패키지
 
 import 'package:flutter/material.dart';
 
+import 'package:simple_video_player/components/custom_icon_button.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
@@ -13,6 +15,7 @@ class CustomVideoPlayer extends StatefulWidget {
 
   const CustomVideoPlayer({
     required this.video,   // 상위에서 선택한 동영상 주입
+
     Key? key,
   }) : super(key: key);
 
@@ -87,6 +90,38 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               min: 0,
               // max 매개변수는 double 값을 입력
               max: videoPlayerController!.value.duration.inSeconds.toDouble(),
+            ),
+          ),
+          // 새 동영상 선택 아이콘 오른쪽 상단에 위치
+          Align(
+            alignment: Alignment.topRight,
+            child: CustomIconButton(
+              onPressed: () {},
+              iconData: Icons.photo_camera_back,
+            ),
+          ),
+          // 동영상 재생 관련 아이콘 중앙에 위치
+          Align(
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,   // 위젯들 간격을 동일하게 적용
+              children: [
+                // 되감기 버튼
+                CustomIconButton(
+                  onPressed: () {},
+                  iconData: Icons.rotate_left,
+                ),
+                // 재생 중 여부에 따라 재생 또는 일시정지 버튼
+                CustomIconButton(
+                  onPressed: () {},
+                  iconData: videoPlayerController!.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                ),
+                // 앞으로 감기 버튼
+                CustomIconButton(
+                  onPressed: () {},
+                  iconData: Icons.rotate_right,
+                ),
+              ],
             ),
           ),
         ],

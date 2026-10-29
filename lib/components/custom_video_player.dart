@@ -46,7 +46,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       File(widget.video.path),
     );
 
-    await videoPlayerController.initialize();   // 동영상을 재생할 수 있는 상태로 준비
+    // await videoPlayerController.initialize();   // 동영상을 재생할 수 있는 상태로 준비
+    // 동영상이 선택되면 곧바로 자동 재생
+    await videoPlayerController.initialize().then((_) {
+      setState(() {});
+
+      videoPlayerController.play();
+    });
 
     videoPlayerController.addListener(videoPlayerControllerListener);   // 컨트롤러의 속성이 변경될 때마다 실행할 함수 등록
 

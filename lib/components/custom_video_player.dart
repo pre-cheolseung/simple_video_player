@@ -162,6 +162,16 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             ),
             // showControls가 true일 때만 아이콘 보임
             if (showControls)
+              // 2배속 재생 아이콘 왼쪽 상단에 위치
+              Align(
+                alignment: Alignment.topLeft,
+                child: CustomIconButton(
+                  onPressed: on2xPressed,
+                  iconData: Icons.fast_forward,
+                ),
+              ),
+            // showControls가 true일 때만 아이콘 보임
+            if (showControls)
               // 새 동영상 선택 아이콘 오른쪽 상단에 위치
               Align(
                 alignment: Alignment.topRight,
@@ -210,6 +220,11 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
         color: Colors.white,
       ),
     );
+  }
+
+  // 2배속 재생 버튼을 눌렀을 때 실행할 함수
+  void on2xPressed() {
+    videoPlayerController!.setPlaybackSpeed(2.0);
   }
 
   // 되감기 버튼을 눌렀을 때 실행할 함수

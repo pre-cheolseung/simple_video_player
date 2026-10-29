@@ -223,8 +223,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   }
 
   // 2배속 재생 버튼을 눌렀을 때 실행할 함수
-  void on2xPressed() {
-    videoPlayerController!.setPlaybackSpeed(2.0);
+  void on2xPressed() async {
+    final currentSpeed = videoPlayerController!.value.playbackSpeed;   // 현재 동영상 재생 속도
+    final isFast = currentSpeed == 2.0;
+
+    double targetSpeed = isFast ? 1.0 : 2.0;   // 버튼을 눌렀을 때, 1배속이면 2배속으로 재생하고 2배속이면 1배속으로 재생
+
+    await videoPlayerController!.setPlaybackSpeed(targetSpeed);
   }
 
   // 되감기 버튼을 눌렀을 때 실행할 함수

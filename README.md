@@ -1,17 +1,30 @@
-# simple_video_player
+# Video Player
 
 A new Flutter project.
 
-## Getting Started
+- Flutter 3.47.7
+- Dart 3.13.5
 
-This project is a starting point for a Flutter application.
+## Preparation
 
-A few resources to get you started if this is your first Flutter project:
+- StatefulWidget status management
+    - didUpdateWidget function
+- Gallery native permissions settings.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Key Components
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Stack
+- Positioned
+- XFile
+- LinearGradient
+- Duration
+- ImagePicker
+- VideoPlayer
+    - Controller
+- GestureDetector
+- AspectRatio
+
+## Plugin
+
+- image_picker: ^1.2.4
+- video_player: ^2.14.1
